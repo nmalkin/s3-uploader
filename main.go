@@ -33,7 +33,8 @@ func main() {
 		writer.Close()
 	}()
 	uploader := s3manager.NewUploader(session.New(&aws.Config{
-		Region: aws.String("us-west-2")}))
+		Credentials: getCredentials(),
+		Region:      aws.String("us-west-2")}))
 	result, err := uploader.Upload(&s3manager.UploadInput{
 		Body:   reader,
 		Bucket: aws.String(bucket),
