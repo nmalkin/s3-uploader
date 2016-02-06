@@ -21,8 +21,7 @@ func main() {
 		log.Fatal("Failed to open file", err)
 	}
 
-	// Not required, but you could zip the file before uploading it
-	// using io.Pipe read/writer to stream gzip'd file contents.
+	// gzip file contents
 	reader, writer := io.Pipe()
 	go func() {
 		gw := gzip.NewWriter(writer)
