@@ -11,8 +11,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
 
-const bucket = "tor-ux"
-
 func uploadFile(filename string) {
 	s3Filename := filename + ".gz"
 
