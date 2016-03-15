@@ -33,7 +33,7 @@ func uploadFile(filename string) {
 	// Upload gzipped contents
 	uploader := s3manager.NewUploader(session.New(&aws.Config{
 		Credentials: getCredentials(),
-		Region:      aws.String("us-west-2")}))
+		Region:      aws.String(awsRegion)}))
 	result, err := uploader.Upload(&s3manager.UploadInput{
 		Body:   reader,
 		Bucket: aws.String(bucket),

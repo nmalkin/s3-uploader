@@ -2,6 +2,7 @@ package main
 
 import "github.com/aws/aws-sdk-go/aws/credentials"
 
+const awsRegion = "us-west-2"
 const bucket = "MY-BUCKET-CHANGE-THIS"
 
 func getCredentials() *credentials.Credentials {
