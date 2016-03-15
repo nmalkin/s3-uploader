@@ -47,5 +47,7 @@ func uploadFile(filename string) {
 }
 
 func main() {
-	uploadFile("test.txt")
+	for _, filename := range filesToUpload {
+		uploadFile(filename)
+	}
 }

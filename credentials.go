@@ -2,6 +2,8 @@ package main
 
 import "github.com/aws/aws-sdk-go/aws/credentials"
 
+var filesToUpload = []string{"test.txt", "test2.txt"}
+
 const awsRegion = "us-west-2"
 const bucket = "MY-BUCKET-CHANGE-THIS"
 
