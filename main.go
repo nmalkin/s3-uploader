@@ -11,10 +11,10 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
 
-func main() {
-	bucket := "tor-ux"
-	filename := "test.txt"
-	s3Key := "test.txt.gz"
+const bucket = "tor-ux"
+
+func uploadFile(filename string) {
+	s3Filename := filename + ".gz"
 
 	file, err := os.Open(filename)
 	if err != nil {
@@ -31,17 +31,23 @@ func main() {
 		gw.Close()
 		writer.Close()
 	}()
+
+	// Upload gzipped contents
 	uploader := s3manager.NewUploader(session.New(&aws.Config{
 		Credentials: getCredentials(),
 		Region:      aws.String("us-west-2")}))
 	result, err := uploader.Upload(&s3manager.UploadInput{
 		Body:   reader,
 		Bucket: aws.String(bucket),
-		Key:    aws.String(s3Key),
+		Key:    aws.String(s3Filename),
 	})
 	if err != nil {
 		log.Fatalln("Failed to upload", err)
 	}
 
 	log.Println("Successfully uploaded to", result.Location)
+}
+
+func main() {
+	uploadFile("test.txt")
 }
