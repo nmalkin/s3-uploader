@@ -11,5 +11,5 @@ var config = struct {
 	"MY-BUCKET",
 	"",
 	"",
-	[]string{"test.txt", "test2.txt"},
+	[]string{"README.md", "test.txt"},
 }
