@@ -12,15 +12,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
 
-func getCredentials() *credentials.Credentials {
-	aws_access_key_id := config.AWSAccessKeyID
-	aws_secret_access_key := config.AWSSecretAccessKey
-	token := ""
-
-	creds := credentials.NewStaticCredentials(aws_access_key_id, aws_secret_access_key, token)
-	return creds
-}
-
 func uploadFile(filename string) {
 	s3Filename := filename + ".gz"
 
@@ -42,7 +33,7 @@ func uploadFile(filename string) {
 
 	// Upload gzipped contents
 	uploader := s3manager.NewUploader(session.New(&aws.Config{
-		Credentials: getCredentials(),
+		Credentials: credentials.NewStaticCredentials(config.AWSAccessKeyID, config.AWSSecretAccessKey, ""),
 		Region:      aws.String(config.AWSRegion)}))
 	result, err := uploader.Upload(&s3manager.UploadInput{
 		Body:   reader,
