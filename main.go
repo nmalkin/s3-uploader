@@ -3,8 +3,10 @@ package main
 import (
 	"compress/gzip"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -12,10 +14,16 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
 
-func uploadFile(filename string) {
+// uploadFile uploads the file named "filename" from the directory "directory"
+// to S3. It compresses the file using gzip, adds the extension ".gz", and puts
+// it at the top level of the bucket.
+//
+// If a file with this filename already exists, it will be overwritten.
+func uploadFile(directory string, filename string) {
+	path := filepath.Join(directory, filename)
 	s3Filename := filename + ".gz"
 
-	file, err := os.Open(filename)
+	file, err := os.Open(path)
 	if err != nil {
 		log.Fatal("Failed to open file", err)
 	}
@@ -44,11 +52,12 @@ func uploadFile(filename string) {
 		log.Fatalln("Failed to upload", err)
 	}
 
-	log.Println("Successfully uploaded to", result.Location)
+	log.Println("Successfully uploaded", filename, "to", result.Location)
 }
 
 func main() {
-	for _, filename := range config.FilesToUpload {
-		uploadFile(filename)
+	files, _ := ioutil.ReadDir(config.DirectoryToUpload)
+	for _, file := range files {
+		uploadFile(config.DirectoryToUpload, file.Name())
 	}
 }

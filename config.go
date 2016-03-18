@@ -1,15 +1,20 @@
 package main
 
+import (
+	"os"
+	"path/filepath"
+)
+
 var config = struct {
 	AWSRegion          string
 	Bucket             string
 	AWSAccessKeyID     string
 	AWSSecretAccessKey string
-	FilesToUpload      []string
+	DirectoryToUpload  string
 }{
 	"us-west-2",
 	"MY-BUCKET",
 	"",
 	"",
-	[]string{"README.md", "test.txt"},
+	filepath.Join(os.Getenv("TEMP"), "upload"),
 }
